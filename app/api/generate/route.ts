@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Product, verse, or angle not found' }, { status: 404 })
   }
 
-  const output = generateCreative({ product, verse, angle })
+  const output = await generateCreative({ product, verse, angle, notes })
 
   const record = {
     product_id,
