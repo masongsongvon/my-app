@@ -56,14 +56,14 @@ export const SEED_VERSES: Omit<Verse, 'created_at'>[] = [
 ]
 
 export const SEED_ANGLES: Omit<CreativeAngle, 'created_at'>[] = [
-  { id: 'angle-1', name: 'Anxiety / Fear', description: 'For those struggling with worry, fear, or anxiety' },
-  { id: 'angle-2', name: 'Gift', description: 'Buying as a meaningful gift for someone special' },
-  { id: 'angle-3', name: 'Faith Reminder', description: 'A daily reminder to stay grounded in faith' },
-  { id: 'angle-4', name: 'Breakup / Healing', description: 'For those healing from a relationship or loss' },
-  { id: 'angle-5', name: 'Motivation', description: 'Inspiring action and perseverance through faith' },
-  { id: 'angle-6', name: 'Feeling Alone', description: 'For those who feel isolated or unseen' },
-  { id: 'angle-7', name: 'Hard Season', description: 'For those going through a difficult time in life' },
-  { id: 'angle-8', name: 'Waiting Season', description: 'For those waiting on God\'s timing and promises' },
-  { id: 'angle-9', name: 'Encouragement for Loved One', description: 'Gifting hope and love to someone you care about' },
-  { id: 'angle-10', name: 'Daily Reminder of God\'s Promise', description: 'Wearing a constant reminder of God\'s faithfulness' },
+  { id: 'angle-1', name: 'Overthinking', description: 'Para sa mga taong hindi mapanatag ang isip, laging nag-aala-ala' },
+  { id: 'angle-2', name: 'Silent Struggle', description: 'Para sa mga nagsasabing okay lang sila pero hindi talaga' },
+  { id: 'angle-3', name: 'Fear', description: 'Para sa mga may takot na hindi nila masabi sa kahit sino' },
+  { id: 'angle-4', name: 'Waiting Season', description: 'Para sa mga naghihintay sa timing ng Diyos at pakiramdam ay walang nangyayari' },
+  { id: 'angle-5', name: 'Nothing Is Impossible', description: 'Para sa mga may pangarap na sinasabing imposible ng iba' },
+  { id: 'angle-6', name: 'Gift For Someone', description: 'Para sa mga gustong magbigay ng meaningful na regalo sa taong espesyal' },
+  { id: 'angle-7', name: 'Burnout', description: 'Para sa mga pagod na pagod na — sa trabaho, sa buhay, sa lahat' },
+  { id: 'angle-8', name: 'Not Alone', description: 'Para sa mga pakiramdam na nag-iisa kahit nasa gitna ng mga tao' },
+  { id: 'angle-9', name: 'Let Go And Trust', description: 'Para sa mga naghahold-on sa bagay na kailangan na nilang pakawalan' },
+  { id: 'angle-10', name: 'Daily Reminder', description: 'Para sa mga kailangan ng pisikal na paalala ng pangako ng Diyos araw-araw' },
 ]
