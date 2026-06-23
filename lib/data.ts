@@ -2,25 +2,25 @@ import type { Product, Verse, CreativeAngle } from './types'
 
 export const SEED_PRODUCTS: Omit<Product, 'created_at'>[] = [
   {
-    id: 'prod-1',
+    id: 'product-1',
     name: 'Original Bible Verse Bracelet',
     slug: 'original-bible-verse-bracelet',
     description: 'A beautiful bracelet engraved with your chosen Bible verse — a wearable reminder of God\'s promises.',
   },
   {
-    id: 'prod-2',
+    id: 'product-2',
     name: 'Silver Edition Bible Verse Bracelet',
     slug: 'silver-edition-bible-verse-bracelet',
     description: 'Premium sterling silver bracelet engraved with your chosen Bible verse — faith meets elegance.',
   },
   {
-    id: 'prod-3',
+    id: 'product-3',
     name: 'Bible Verse Necklace',
     slug: 'bible-verse-necklace',
     description: 'A delicate necklace engraved with your chosen Bible verse — wear your faith close to your heart.',
   },
   {
-    id: 'prod-4',
+    id: 'product-4',
     name: 'Daily Verse Jar',
     slug: 'daily-verse-jar',
     description: 'A charming jar filled with 52 Bible verses — one for every week of the year, to inspire daily devotion.',
