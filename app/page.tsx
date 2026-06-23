@@ -1,65 +1,100 @@
-import Image from "next/image";
+import Link from 'next/link'
+import { SEED_PRODUCTS, SEED_VERSES, SEED_ANGLES } from '@/lib/data'
 
-export default function Home() {
+const STATS = [
+  { label: 'Products', value: SEED_PRODUCTS.length, icon: '📦' },
+  { label: 'Bible Verses', value: SEED_VERSES.length, icon: '✝️' },
+  { label: 'Customer Angles', value: SEED_ANGLES.length, icon: '🎯' },
+  { label: 'Creative Formats', value: 8, icon: '✨' },
+]
+
+const QUICK_ACTIONS = [
+  {
+    href: '/generate',
+    icon: '✨',
+    title: 'Generate Creative',
+    desc: 'Pick a verse, product, angle, and format — get a full creative set instantly.',
+    cta: 'Start generating →',
+    accent: 'bg-amber-500',
+  },
+  {
+    href: '/saved',
+    icon: '📂',
+    title: 'Saved Creatives',
+    desc: 'Browse, filter, and copy all your previously generated creatives.',
+    cta: 'View library →',
+    accent: 'bg-blue-500',
+  },
+  {
+    href: '/settings',
+    icon: '⚙️',
+    title: 'Settings & Seed Data',
+    desc: 'Connect Supabase and seed your database with products, verses, and angles.',
+    cta: 'Go to settings →',
+    accent: 'bg-stone-500',
+  },
+]
+
+export default function DashboardPage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="max-w-5xl mx-auto px-6 py-10">
+      {/* Header */}
+      <div className="mb-10">
+        <p className="text-xs font-semibold uppercase tracking-widest text-amber-500 mb-2">
+          Automated Creative Library
+        </p>
+        <h1 className="text-3xl font-bold text-stone-900 mb-2">Daily Devotion Growth OS</h1>
+        <p className="text-stone-500 max-w-xl">
+          Generate faith-based ad copy, UGC scripts, product descriptions, hooks, and more — in seconds. Built for Daily Devotion Co.
+        </p>
+      </div>
+
+      {/* Stats */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        {STATS.map((stat) => (
+          <div key={stat.label} className="bg-white rounded-2xl border border-stone-200 p-5 shadow-sm">
+            <p className="text-2xl mb-2">{stat.icon}</p>
+            <p className="text-3xl font-bold text-stone-900">{stat.value}</p>
+            <p className="text-sm text-stone-500 mt-1">{stat.label}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Quick Actions */}
+      <div className="grid md:grid-cols-3 gap-4 mb-10">
+        {QUICK_ACTIONS.map((action) => (
+          <Link
+            key={action.href}
+            href={action.href}
+            className="group bg-white rounded-2xl border border-stone-200 p-6 shadow-sm hover:shadow-md hover:border-stone-300 transition-all"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <div className={`w-10 h-10 rounded-xl ${action.accent} flex items-center justify-center text-white text-xl mb-4`}>
+              {action.icon}
+            </div>
+            <h3 className="font-semibold text-stone-900 mb-2">{action.title}</h3>
+            <p className="text-sm text-stone-500 mb-4">{action.desc}</p>
+            <span className="text-sm font-medium text-amber-600 group-hover:underline">{action.cta}</span>
+          </Link>
+        ))}
+      </div>
+
+      {/* Brand Context */}
+      <div className="bg-stone-900 rounded-2xl p-6 text-white">
+        <p className="text-xs font-semibold uppercase tracking-widest text-amber-400 mb-3">Brand Context</p>
+        <h2 className="text-lg font-bold mb-2">Daily Devotion Co.</h2>
+        <p className="text-stone-300 text-sm mb-4">
+          Faith-based, emotional, comforting, and giftable jewelry and devotional products. The main promise:{' '}
+          <em className="text-amber-400">"A promise you can wear."</em>
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {SEED_VERSES.map((v) => (
+            <div key={v.id} className="bg-stone-800 rounded-xl p-3">
+              <p className="text-xs font-semibold text-amber-400">{v.reference}</p>
+              <p className="text-sm text-stone-200 mt-1">"{v.text}"</p>
+            </div>
+          ))}
         </div>
-      </main>
+      </div>
     </div>
-  );
+  )
 }
