@@ -131,9 +131,9 @@ export default function LibraryPage() {
   }, {})
 
   return (
-    <div className="flex h-full">
+    <div className="flex" style={{ height: 'calc(100vh - 0px)' }}>
       {/* Main */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col min-h-0">
         {/* Header */}
         <div className="px-6 py-5 border-b border-stone-200 bg-white flex items-center justify-between gap-4 shrink-0">
           <div>

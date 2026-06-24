@@ -129,8 +129,9 @@ export default function SettingsPage() {
       </section>
 
       {/* Angles */}
-      <section className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6">
-        <h2 className="font-semibold text-stone-800 mb-4">Customer Angles</h2>
+      <section className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6 mb-6">
+        <h2 className="font-semibold text-stone-800 mb-4">Legacy Seed Angles</h2>
+        <p className="text-xs text-stone-400 mb-3">These are static seed angles. The new Creative Generator uses AI-generated dynamic angles instead.</p>
         <div className="flex flex-wrap gap-2">
           {SEED_ANGLES.map((a) => (
             <span key={a.id} className="px-3 py-1.5 bg-blue-50 border border-blue-200 rounded-full text-xs font-medium text-blue-700">
@@ -138,6 +139,31 @@ export default function SettingsPage() {
             </span>
           ))}
         </div>
+      </section>
+
+      {/* New Tables */}
+      <section className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6">
+        <h2 className="font-semibold text-stone-800 mb-1">Growth OS Database Tables</h2>
+        <p className="text-sm text-stone-500 mb-4">These tables power the new Content OS features. Run the Supabase migration to create them.</p>
+        <div className="grid sm:grid-cols-2 gap-2">
+          {[
+            { table: 'brand_assets', desc: 'Asset Library — uploaded & imported photos' },
+            { table: 'campaign_themes', desc: 'Campaign Themes (Faith & Reconnection, etc.)' },
+            { table: 'content_pillars', desc: 'Content Pillars per theme' },
+            { table: 'personas', desc: 'Customer Persona definitions' },
+            { table: 'campaign_plans', desc: 'Campaign Plans linking themes and dates' },
+            { table: 'content_calendar_items', desc: 'Content Calendar scheduled items' },
+            { table: 'winning_ads', desc: 'High-performing ad references' },
+          ].map(t => (
+            <div key={t.table} className="p-3 bg-stone-50 rounded-xl border border-stone-200">
+              <code className="text-xs font-mono text-amber-700">{t.table}</code>
+              <p className="text-xs text-stone-500 mt-0.5">{t.desc}</p>
+            </div>
+          ))}
+        </div>
+        <p className="text-xs text-stone-400 mt-4">
+          Migration file: <code className="bg-stone-100 px-1 rounded">supabase/migrations/</code> — run via Supabase CLI or paste the SQL into the Supabase SQL editor.
+        </p>
       </section>
     </div>
   )

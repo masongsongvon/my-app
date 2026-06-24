@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { SEED_PRODUCTS, SEED_VERSES } from '@/lib/data'
 import type { ImageAdOutput } from '@/app/api/image-ads/route'
+import type { BrandAsset } from '@/lib/types'
 
 const THEMES = ['Faith & Reconnection', 'Protection & Peace', 'Gift of Faith', 'Strength & Career', 'Love & Relationships', 'New Beginnings']
 const PERSONAS = ['Spiritually Drifting Young Pro (22-32)', 'Anxious Parent (28-45)', 'Thoughtful Gift-Seeker (25-40)']
@@ -19,6 +20,7 @@ export default function ImageAdsPage() {
   const [result, setResult] = useState<ImageAdOutput | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [copiedField, setCopiedField] = useState<string | null>(null)
+  const [libraryAssets, setLibraryAssets] = useState<BrandAsset[]>([])
 
   const selectedProduct = SEED_PRODUCTS.find(p => p.id === productId)
   const selectedVerse = SEED_VERSES.find(v => v.id === verseId)
@@ -51,6 +53,14 @@ export default function ImageAdsPage() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    if (!result?.recommended_asset_category) return
+    fetch(`/api/assets?category=${result.recommended_asset_category}&limit=4`)
+      .then(r => r.json())
+      .then(d => setLibraryAssets(d.assets ?? []))
+      .catch(() => {})
+  }, [result?.recommended_asset_category])
 
   async function copy(text: string, field: string) {
     await navigator.clipboard.writeText(text)
@@ -197,10 +207,31 @@ export default function ImageAdsPage() {
                 <p className="text-xs font-bold uppercase tracking-widest text-amber-500 mb-3">Visual Direction</p>
                 <div className="space-y-3 text-sm text-stone-700">
                   <div>
-                    <p className="text-xs font-semibold text-stone-500 uppercase mb-1">Recommended Asset</p>
-                    <p className="font-medium capitalize">{result.recommended_asset_category.replace('_', ' ')}</p>
+                    <p className="text-xs font-semibold text-stone-500 uppercase mb-1">Recommended Asset Type</p>
+                    <p className="font-medium capitalize">{result.recommended_asset_category.replace(/_/g, ' ')}</p>
                     <p className="text-stone-500 text-xs mt-0.5">{result.recommended_asset_description}</p>
                   </div>
+                  {libraryAssets.length > 0 && (
+                    <div>
+                      <p className="text-xs font-semibold text-stone-500 uppercase mb-2">Matching Assets from Library</p>
+                      <div className="grid grid-cols-4 gap-2">
+                        {libraryAssets.map(asset => {
+                          const url = asset.public_url ?? (asset.local_path ? `/api/assets/serve?path=${encodeURIComponent(asset.local_path)}` : null)
+                          return url ? (
+                            <div key={asset.id} className="aspect-square rounded-lg overflow-hidden bg-stone-100">
+                              <img src={url} alt={asset.name} className="w-full h-full object-cover" loading="lazy" />
+                            </div>
+                          ) : null
+                        })}
+                      </div>
+                      <a href="/library" className="text-xs text-amber-600 hover:underline mt-1 block">View all in Asset Library →</a>
+                    </div>
+                  )}
+                  {libraryAssets.length === 0 && (
+                    <div>
+                      <p className="text-xs text-stone-400">No matching assets in library yet. <a href="/library" className="text-amber-600 hover:underline">Import your photos →</a></p>
+                    </div>
+                  )}
                   <div>
                     <p className="text-xs font-semibold text-stone-500 uppercase mb-1">Color Palette</p>
                     <p>{result.color_palette}</p>

@@ -5,8 +5,9 @@ export async function GET(req: NextRequest) {
   if (!isSupabaseConfigured) return NextResponse.json({ assets: [] })
   const category = req.nextUrl.searchParams.get('category')
   const search = req.nextUrl.searchParams.get('search')
+  const limit = parseInt(req.nextUrl.searchParams.get('limit') ?? '200', 10)
 
-  let query = supabase.from('brand_assets').select('*').order('created_at', { ascending: false })
+  let query = supabase.from('brand_assets').select('*').order('created_at', { ascending: false }).limit(limit)
   if (category && category !== 'all') query = query.eq('category', category)
   if (search) query = query.ilike('name', `%${search}%`)
 

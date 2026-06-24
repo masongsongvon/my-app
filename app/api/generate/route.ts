@@ -79,7 +79,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    return NextResponse.json({ creative: data })
+    // For dynamic angles, inject the resolved angle name since it won't be in the DB join
+    const responseCreative = angle_id === 'dynamic'
+      ? { ...data, creative_angles: { id: 'dynamic', name: angle.name, description: angle.description } }
+      : data
+
+    return NextResponse.json({ creative: responseCreative })
   }
 
   // Return without persisting if Supabase is not configured
@@ -89,7 +94,7 @@ export async function POST(req: NextRequest) {
     created_at: new Date().toISOString(),
     products: product,
     verses: verse,
-    creative_angles: angle,
+    creative_angles: { id: angle.id, name: angle.name, description: angle.description },
   }
 
   return NextResponse.json({ creative, persisted: false })

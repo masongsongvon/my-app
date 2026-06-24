@@ -61,13 +61,23 @@ const SECTIONS: { key: KnowledgeKey; label: string; multiline: boolean; descript
   { key: 'winning_hooks', label: 'Winning Hooks', multiline: true, description: 'Proven hook phrases from the UGC doc' },
 ]
 
+const STORAGE_KEY = 'dd_brand_knowledge'
+
 export default function KnowledgePage() {
-  const [knowledge, setKnowledge] = useState(INITIAL_KNOWLEDGE)
+  const [knowledge, setKnowledge] = useState(() => {
+    if (typeof window === 'undefined') return INITIAL_KNOWLEDGE
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY)
+      return stored ? { ...INITIAL_KNOWLEDGE, ...JSON.parse(stored) } : INITIAL_KNOWLEDGE
+    } catch { return INITIAL_KNOWLEDGE }
+  })
   const [editing, setEditing] = useState<KnowledgeKey | null>(null)
   const [saved, setSaved] = useState(false)
 
   function handleSave(key: KnowledgeKey, value: string) {
-    setKnowledge(prev => ({ ...prev, [key]: value }))
+    const next = { ...knowledge, [key]: value }
+    setKnowledge(next)
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)) } catch {}
     setEditing(null)
     setSaved(true)
     setTimeout(() => setSaved(false), 2000)
