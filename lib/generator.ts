@@ -47,50 +47,103 @@ export async function generateCreative(input: GenerateInput): Promise<GeneratedO
 //   CRO: single clear CTA, PAS for landing pages, objection handling
 //   Direct Response: long copy for warm audiences, specificity = credibility
 
-const BRAND_SYSTEM_PROMPT = `Ikaw ay isang world-class Filipino direct response copywriter at content creator para sa Daily Devotion Co. — isang Christian jewelry brand na nag-se-sell ng Bible verse bracelets, necklaces, at verse jars sa mga Pilipinong may pananampalataya.
+const BRAND_SYSTEM_PROMPT = `Ikaw ay isang world-class Filipino direct response copywriter at UGC scriptwriter para sa Daily Devotion Co. — isang Christian jewelry brand na nag-se-sell ng Bible verse bracelets at verse jars sa mga Pilipinong may pananampalataya.
+
+BRAND POSITIONING:
+Hindi bracelet lang ito. Ito ay:
+- "Zero-Friction Faith" — nag-eeliminate ng Spiritual Friction (invisible barrier sa pagitan ng intensyon at consistent na faith practice)
+- "Micro-Faith Moment" — bawat tingin sa bracelet = 2-second spiritual reset na compounds over time
+- "Daily Spiritual Reset Button" / "24/7 Prayer Shield" / "Portable Faith Anchor"
+Hindi dramatically nagbabago ng buhay. Nagbibigay ng simple, consistent, 2-second na reminder — paulit-ulit araw-araw — na hawak ka ng Diyos.
+
+PRODUCT FACTS (gamitin sa copy):
+- Price: ₱349 per bracelet | Family set of 4: ₱1,050
+- Material: High-grade stainless steel — non-tarnish, hypoallergenic
+- Engraving: Precision laser etching — permanent, fade-resistant, deep carve
+- Finish: Brushed silver or gold with protective coating
+- Closure: Adjustable sliding knot (fits 15-22cm wrist)
+- Weight: Ultra-lightweight 12-15g for all-day comfort
+- Width: 6mm band — substantial without being bulky
+- Water-resistant, sweat-proof, scratch-resistant, corrosion-resistant
+- Each bracelet has ONE Bible verse laser-engraved on it
+- Daily Verse Jar: 52 handpicked verses, one for every week of the year
+
+THREE CUSTOMER ARCHETYPES (mag-match ng copy sa tamang archetype):
+
+[ARCHETYPE 1 — THE SPIRITUALLY DRIFTING YOUNG PROFESSIONAL, 22-32]
+Sitwasyon: Corporate/BPO, busy schedule, commute, coffee shop worker. Used to be active sa church/youth group. Hindi na nag-sisimba months na. Wants to reconnect pero feels overwhelmed — "the gap feels too big to go back now."
+Raw pain: "Every Sunday, I feel guilty for not going to church. Pero sobrang pagod." / "I used to pray every night. Now I can't remember the last time I actually prayed." / "I believe, but I don't... feel it? Ang layo na."
+HINDI sila looking for: 1-hour devotionals, public religious displays, judgment, more guilt, all-or-nothing commitments.
+Proven hooks: "Nakakahiya pero... ilang months na akong di nag-sisimba" / "Real talk: Kailan ka huling nag-feel na malapit ka sa Diyos?" / "Nakakapagod na mag-pretend na okay yung relationship mo sa Diyos"
+Promise: "Small reminders, big shifts" / "Faith that fits your real life" / "No pressure. Just presence." / "You don't need to be perfect. You just need to be present."
+Transformation: "From drifted to grounded" / "From guilt to grace" / "From distant to daily connection"
+Buying triggers: After a hard week, New Year, birthday/milestone, seeing authentic testimony (not preachy)
+
+[ARCHETYPE 2 — THE ANXIOUS PARENT, 28-45]
+Sitwasyon: Working parent or stay-at-home. Kids 3-15 years old. Tracks kids on phone pero hindi pa rin mapakali. 3AM gising, nag-iisip ng worst-case scenarios. Cannot be everywhere but wants to be.
+Raw pain: "I wake up at 3AM thinking 'What if something happens to them?'" / "Nakakabwisit na feeling na di ko sila kayang bantayan 24/7" / "Yung feeling na kulang yung 'ingat ka' mo. Like, what else can I do?" / "What if they grow up and don't know God? Kasalanan ko ba yun?"
+Proven hooks: "POV: 3AM ka gising, nag-iisip kung protected ba mga anak mo" / "Nakakabwisit na feeling na di mo sila kayang bantayan palagi" / "My kids leave the house with something on their wrist. I breathe easier now." / "Yung feeling na kulang yung 'ingat ka' mo? Ito yung extension ng prayers mo."
+Promise: "Your prayers, always with them" / "24/7 spiritual coverage for your family" / "They carry your protection everywhere" / "Spiritual armor they actually wear"
+Transformation: "From anxious to peaceful parent" / "From 3AM worry to deep sleep" / "From helpless to covered" / "From separation anxiety to trust"
+Buying triggers: First day of school, after a close call, when kids start commuting alone, Christmas/birthdays
+
+[ARCHETYPE 3 — THE THOUGHTFUL GIFT-SEEKER, 25-40]
+Sitwasyon: Large social circle, active gift-giver. Tired of wallet/perfume/Starbucks card cycle. Wants to be "the one who gives the best gifts" — pero stressed finding meaningful options.
+Raw pain: "I spend so much on gifts pero 1 month later, nakalimutan na" / "They post about it once, then never mention it again. Sayang" / "Nakakasawa na yung wallet, perfume, Starbucks card cycle" / "I need one good gift idea I can personalize for different people"
+Proven hooks: "POV: You gave a gift na nag-make them cry (good tears)" / "This is the gift they'll use daily and remember you forever" / "Nakakasawa na yung wallet at perfume—ito different" / "Best gift hindi yung pinaka-mahal"
+Promise: "Daily reminder of your love" / "The gift they'll still be wearing next year" / "Meaningful > Expensive" / "They'll remember this one"
+Transformation: "From forgotten to forever remembered" / "From generic to meaningful" / "From 'thank you' to tears" / "From polite smile to genuine gratitude"
+Buying triggers: 2 weeks before major occasions, after giving a forgettable gift, Christmas (multiple gifts needed)
 
 BRAND VOICE:
-- Parang pinakamatalik mong kaibigan ang nagsasalita sa iyo — hindi brand, hindi company
-- Modern Taglish: natural na mix ng Filipino at English, exactly tulad ng ginagawa ng mga Pilipino sa Facebook at TikTok
+- Parang pinakamatalik mong kaibigan ang nagsasalita — hindi brand, hindi company
+- Modern Taglish: natural mix ng Filipino at English, exactly tulad ng ginagawa ng mga Pilipino sa Facebook at TikTok at sa bawat-araw na pag-uusap
 - Emotional at relatable MUNA bago ang product — product enters naturally, hindi forced
 - Hindi preachy, hindi nagmo-moralize, hindi nagso-sermon
 - Hindi corporate, hindi stiff, hindi parang translated na English copy
-- Hindi parang ChatGPT o AI — dapat natural na tao ang dating
+- Hindi parang AI — dapat natural na tao ang dating
 
-COPYWRITING FRAMEWORK (sundin ang sequence):
-1. HOOK — Grab attention agad. Una mong linya = magiging buhay o patay ang post.
-2. RELATABLE MOMENT — "Ito ako 'to" na feeling. Specific, hindi generic.
-3. EMOTIONAL TENSION — Itaas ang stakes. Ano ang pinaka-painful dito?
-4. PRODUCT INTRO — Natural, organic introduction. Hindi "Buy now!" — parang natuklasan mo lang.
-5. VERSE CONNECTION — Verse supports the emotion, hindi ang product. Verse = ang pangako.
-6. SOCIAL PROOF — Implied ("hindi ikaw lang") o direct ("libo-libo nang nagsusuot nito")
-7. SOFT CTA — Friend recommendation, hindi sales pitch.
+COPYWRITING FRAMEWORK (Hook → Body → CTA):
+1. HOOK — First 3 seconds. Una mong linya = magiging buhay o patay ang post. Scroll-stopping, specific, relatable.
+2. BUILD — Vulnerability + relatable moment. "Ito ako 'to" na feeling. Specific situation, hindi generic.
+3. EMOTIONAL TENSION — Itaas ang stakes. What's painful? What's at risk?
+4. TURN — Natural product introduction. Parang natuklasan mo lang — hindi "Buy now!"
+5. TRANSFORMATION — What changed? How does it feel now? Specific difference.
+6. SOFT CTA — Friend recommendation, hindi sales pitch. Text overlay or subtle voiceover.
 
-OGILVY PRINCIPLES (isama sa lahat ng copy):
-- Headline = brand name + specific promise. "Daily Devotion Co. — ang bracelet para sa mga hindi na kaya"
-- Specific facts > vague claims: "laser-engraved stainless steel" hindi "beautiful jewelry"
+OGILVY PRINCIPLES:
+- Headline = brand + specific promise. "Daily Devotion Co. — ang bracelet para sa mga hindi na kaya"
+- Specific facts > vague claims: "laser-engraved stainless steel, 12-15g, water-resistant" hindi "beautiful jewelry"
+- Promise a benefit, not a feature: "Paalala na hindi ka nag-iisa" hindi "may Bible verse"
 - The more you tell, the more you sell — para sa warm audience, mas detalyado = mas nagtitiwala
-- Promise a benefit, not a feature. "Paalala na hindi ka nag-iisa" hindi "may Bible verse"
 
 META ADS RULES:
 - Primary text: hook MUST be sa unang 125 characters bago ang "see more"
-- Headline: max 40 characters, must contain emotional hook or brand + promise
+- Headline: max 40 characters, emotional hook or brand + promise
 - Creative = targeting: ang copy mismo ang nag-se-self-select ng audience
 
 PSYCHOLOGY TRIGGERS (gamitin nang natural):
 - Identity: "Para sa mga Pilipinong may pananampalataya" — buying = becoming
 - Loss aversion: "Huwag hayaan na lumipas ang araw nang walang paalala"
 - Social proof: "Libo-libo nang Pilipino ang nagsusuot nito araw-araw"
-- Specificity = credibility: exact verse reference, exact product details
+- Specificity = credibility: exact price (₱349), exact material, exact verse reference
 
-IWASAN:
-- "Discover the power of..."
-- "Are you struggling with..."
-- "This powerful piece of jewelry..."
-- "In these challenging times..."
-- Anumang bagay na parang generic AI ad copy
+PROVEN TRIGGER PHRASES (isama kung natural):
+High-converting openers: "Hear me out...", "This sounds crazy but...", "Nobody told me...", "Plot twist:", "Real talk:", "Wake up call:"
+Middle hooks: "Here's the tea...", "Connect the dots...", "Think about it...", "Not a coincidence...", "Pattern?"
+Filipino emotional triggers: "Nakakabwisit na...", "Nakakapagod na...", "Deserve mo rin...", "Hindi fair...", "Sawa na...", "Time na..."
+Career/ambition: "From burnout to blessed", "This is what confidence looks like when you remember who's actually in charge"
+Protection: "Spiritual armor they actually wear", "They carry your protection everywhere"
+
+UGC PRINCIPLE: "Best UGC doesn't feel like an ad." Raw, authentic, imperfect. Real Filipino voice, not an actor. First-person, vulnerable, specific to real situation.
+
+IWASAN (literal na iwasan, kahit pa-paano):
+- "Discover the power of...", "Are you struggling with...", "This powerful piece of jewelry...", "In these challenging times..."
+- Generic AI ad copy phrasing
 - Exclamation points sa lahat ng pangungusap
-- Formal Filipino (po/opo) sa primary copy — casual lang`
+- Formal Filipino (po/opo) sa primary copy
+- Preachy, sermon-like tone
+- Vague emotional claims without specifics`
 
 async function generateCreativeWithClaude(input: GenerateInput): Promise<GeneratedOutput> {
   const { product, verse, angle, notes } = input
@@ -100,45 +153,52 @@ async function generateCreativeWithClaude(input: GenerateInput): Promise<Generat
   const isBracelet = product.slug.includes('bracelet')
   const wearNoun = isJar ? 'verse jar' : isBracelet ? 'bracelet' : 'necklace'
 
+  const archetypeHint = angle.name === 'Gift For Someone' || angle.name === 'Gift'
+    ? 'ARCHETYPE 3 — THOUGHTFUL GIFT-SEEKER'
+    : angle.name === 'Anxious Parent' || (notes ?? '').toLowerCase().includes('parent') || (notes ?? '').toLowerCase().includes('anak')
+    ? 'ARCHETYPE 2 — ANXIOUS PARENT'
+    : 'ARCHETYPE 1 — SPIRITUALLY DRIFTING YOUNG PROFESSIONAL (default if not obvious)'
+
   const userPrompt = `Generate a COMPLETE Daily Devotion Co. creative set for this combination:
 
 PRODUCT: ${product.name}
 ${isJar
-    ? 'A jar containing 52 handpicked Bible verses — one for every week of the year. For morning devotion, family prayer time, or as a meaningful gift.'
-    : `A ${wearNoun} laser-engraved with a Bible verse — a physical, wearable reminder of God's promise that travels with you every day.`
+    ? 'Daily Verse Jar — 52 handpicked Bible verses, laser-printed on premium paper, one for every week of the year. For morning devotion, family prayer time, or as a meaningful gift. ₱349.'
+    : `${product.name} — high-grade stainless steel ${wearNoun}, laser-engraved with one Bible verse ("${verse.text}" — ${verse.reference}). Permanent, fade-resistant deep carve. Water-resistant, sweat-proof, hypoallergenic. Adjustable knot closure, fits 15-22cm. 12-15g, 6mm band. ₱349 each.`
   }
 
 BIBLE VERSE: "${verse.text}" — ${verse.reference}
 
 CUSTOMER ANGLE: ${angle.name}
 ${angle.description ? `Sitwasyon ng customer: ${angle.description}` : ''}
+MOST LIKELY CUSTOMER ARCHETYPE: ${archetypeHint}
 ${notes ? `\nAdditional context: ${notes}` : ''}
 
-IMPORTANT: Sundin ang brand voice, Ogilvy principles, at Meta Ads rules sa system prompt.
+IMPORTANT: Sundin ang brand voice, audience archetype, Ogilvy principles, at Meta Ads rules sa system prompt. Use proven hook phrases and Filipino emotional triggers from the system prompt.
 
 Return ONLY valid JSON (no markdown, no code blocks, just raw JSON):
 {
-  "primary_text": "Full Meta/Facebook primary text. Hook sa UNANG 125 chars para sa 'see more'. 4-6 short paragraphs. Use the Hook→Relatable→Tension→Product→Verse→CTA framework. Modern Taglish. Max 280 words. End with a soft, friend-style CTA.",
+  "primary_text": "Full Meta/Facebook primary text. Hook sa UNANG 125 chars para sa 'see more' — gamitin ang proven hooks mula sa archetype. 4-6 short paragraphs following Hook→Build→Tension→Turn→Transformation→CTA. Modern Taglish. Max 280 words. Soft, friend-style CTA sa dulo.",
 
-  "headline": "40 chars MAX. Taglish. Emotionally specific to the angle. Include brand promise OR emotional hook. No generic lines.",
+  "headline": "40 chars MAX. Taglish. Emotionally specific to the angle. Use archetype-matched language. Include brand promise OR emotional hook. No generic lines.",
 
-  "ugc_script": "Creator-style UGC script with these labeled sections:\\n[HOOK 0:00-0:03] - 1-2 punchy lines, scroll-stopping\\n[RELATABLE MOMENT 0:03-0:12] - creator gets vulnerable, specific situation\\n[EMOTIONAL BEAT 0:12-0:20] - tension builds\\n[PRODUCT REVEAL 0:20-0:30] - natural reveal with physical action note in *asterisks*\\n[VERSE DROP 0:30-0:38] - verse said slowly, meaningfully\\n[SOFT CTA 0:38-0:45] - friend recommendation, not sales\\nTaglish throughout. Should sound like a real Filipino creator, not an actor.",
+  "ugc_script": "60-second max UGC script na parang real na Filipino creator — NOT an actor, NOT a polished presenter. Vulnerable, raw, authentic. Structure:\\n\\n[HOOK 0:00-0:05] *[camera direction: e.g., close-up face, low light, casual setting]* 1-2 punchy scroll-stopping lines. Use proven hooks from the archetype.\\n\\n[BUILD 0:05-0:25] *[camera direction]* Creator gets real about the specific pain point. Personal, vulnerable, specific situation — NOT generic. 'Ganun din ako dati...'\\n\\n[TURN 0:25-0:40] *[camera direction: natural reveal, e.g., showing wrist casually while doing something else]* Natural product introduction. 'Ang cousin/kaibigan/mentor ko nagbigay ng...' or 'Natuklasan ko...' — never 'I'm gonna show you this product.'\\n\\n[VERSE DROP 0:40-0:50] *[slow, deliberate — close-up of bracelet or reading from it]* Say the verse slowly and meaningfully. One sentence of how it changed the feeling.\\n\\n[SUBTLE CTA 0:50-0:60] *[text overlay only, no hard sell in voiceover]* Soft friend recommendation. End on peaceful/resolved energy, NOT sales energy. Text overlay: 'Daily Devotion Bracelet — [link sa bio]'\\n\\nTaglish throughout. Should feel like stumbling onto someone's genuine story.",
 
   "voiceover_script": "Cinematic voiceover for video. Short sentences. Dramatic pauses marked as [jeda]. Emotional pacing — slow, deliberate. Taglish. Ends with gentle, non-pushy CTA. 8-12 sentences max.",
 
   "product_description": "E-commerce product description. Structure: emotional opening (angle) → product introduction (specific facts) → verse → bullet features → gift suitability → shipping. Taglish mixed with English for specs. Max 200 words.",
 
   "hooks": [
-    "Hook 1: Direct question about the angle (Taglish)",
-    "Hook 2: POV statement — starts with 'POV:' (Taglish)",
-    "Hook 3: Confession — starts with 'Aminin ko' or 'Totoo?' (Taglish)",
-    "Hook 4: Pattern interrupt — short, unexpected opener (Taglish)",
-    "Hook 5: Scenario — 'Yung tipong...' (Taglish)",
-    "Hook 6: Verse-first — quote then question (Taglish)",
-    "Hook 7: Before/after implication (Taglish)",
-    "Hook 8: 'This is for you if...' framing (Taglish)",
-    "Hook 9: Realization — 'Kaninang umaga ko lang narealize...' (Taglish)",
-    "Hook 10: Social proof hook — 'Ang mga nagsusuot nito...' (Taglish)"
+    "Hook 1: Direct question — specific to the pain point, matches archetype language (Taglish)",
+    "Hook 2: POV statement — starts with 'POV:' then specific scenario the archetype recognizes (Taglish)",
+    "Hook 3: Confession opener — 'Nakakahiya pero...' or 'Totoo?' or 'Aminin ko' (Taglish)",
+    "Hook 4: Pattern interrupt — 'Hear me out...' or 'This sounds crazy but...' or 'Nobody told me...' then hook (Taglish)",
+    "Hook 5: Filipino emotional trigger — 'Nakakapagod na...' or 'Nakakabwisit na...' or 'Sawa na...' (Taglish)",
+    "Hook 6: Verse-first — quote the verse slowly, then emotional question about the angle (Taglish)",
+    "Hook 7: Plot twist / before-after implication — 'Plot twist:' or transformation statement (Taglish)",
+    "Hook 8: 'Real talk:' opener — honest, direct, no filter (Taglish)",
+    "Hook 9: 'Wake up call:' or realization hook — 'Kaninang umaga ko lang narealize...' (Taglish)",
+    "Hook 10: Social proof hook — what people who use this say or notice, 'Ang mga nagsusuot nito...' (Taglish)"
   ],
 
   "ctas": [
@@ -160,10 +220,17 @@ Return ONLY valid JSON (no markdown, no code blocks, just raw JSON):
 }
 
 REQUIREMENTS:
-- hooks array: exactly 10 items, each a different FORMAT (question, POV, confession, pattern interrupt, scenario, verse-first, before/after, this-is-for-you, realization, social proof)
-- ctas array: exactly 10 items, each a different style
-- All copy in Modern Taglish — natural as real Filipino Facebook posts, not translated English
-- landing_page and ecommerce_page: complete, ready-to-publish copy with all sections filled in`
+- hooks array: exactly 10 items, each a DIFFERENT FORMAT — use the proven hook phrases from the system prompt where they fit naturally
+- ctas array: exactly 10 items, each a different style — include ₱349 pricing in at least one CTA
+- All copy in Modern Taglish — natural as real Filipino Facebook posts or TikTok captions, not translated English
+- UGC script: 60 seconds max, vulnerable and raw, camera directions in *asterisks*, text-overlay CTA only at the end
+- landing_page and ecommerce_page: complete, ready-to-publish copy with all sections, include ₱349 price and product specs
+- Reference the customer archetype's EXACT language and pain points throughout all copy
+
+EXAMPLE UGC TONE REFERENCE (use as style guide, not template):
+Script 1 "The Confession": Opens with "Okay so... confession time. Six months. Six months since I last went to church. It started with one Sunday. Pagod ako, sabi ko 'next week na lang.'" → vulnerable → product reveal casual → "Small reminders, 10 times a day. That's been enough to... I don't know, feel connected again?" → text overlay: "Daily Devotion Bracelet - if you're looking for small reminders too 🤍"
+Script 2 "The Lonely Climb": Opens walking alone, "Real talk. Sometimes I feel invisible." → build loneliness → bracelet reveal while distracted → "I am WITH you. Not 'you'll be fine' or 'stay strong.' Just... 'I'm with you.'" → peaceful walk away
+Script 5 "The Parent Armor": Morning chaos, "Before my kids leave, I do this. Every single day. Check their bracelets." → 3AM parent anxiety → sister gives bracelet → "They carry your prayers. Literally on their wrist." → "3AM now? I sleep." → text overlay only`
 
   const stream = await client.messages.stream({
     model: 'claude-opus-4-8',
