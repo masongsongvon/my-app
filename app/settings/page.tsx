@@ -8,6 +8,8 @@ type SeedStatus = 'idle' | 'loading' | 'success' | 'error'
 export default function SettingsPage() {
   const [seedStatus, setSeedStatus] = useState<SeedStatus>('idle')
   const [seedResult, setSeedResult] = useState<string | null>(null)
+  const [osStatus, setOsStatus] = useState<SeedStatus>('idle')
+  const [osResult, setOsResult] = useState<string | null>(null)
 
   async function handleSeed() {
     setSeedStatus('loading')
@@ -25,6 +27,25 @@ export default function SettingsPage() {
     } catch {
       setSeedStatus('error')
       setSeedResult('Network error')
+    }
+  }
+
+  async function handleSeedOS() {
+    setOsStatus('loading')
+    setOsResult(null)
+    try {
+      const res = await fetch('/api/seed-os', { method: 'POST' })
+      const data = await res.json()
+      if (!res.ok) {
+        setOsStatus('error')
+        setOsResult(data.error ?? 'Seed failed')
+      } else {
+        setOsStatus('success')
+        setOsResult(JSON.stringify(data.results, null, 2))
+      }
+    } catch {
+      setOsStatus('error')
+      setOsResult('Network error')
     }
   }
 
@@ -95,6 +116,45 @@ export default function SettingsPage() {
           <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-xl">
             <p className="text-sm font-semibold text-red-700 mb-1">Seed failed</p>
             <p className="text-xs text-red-600">{seedResult}</p>
+          </div>
+        )}
+      </section>
+
+      {/* Growth OS Seed */}
+      <section className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6 mb-6">
+        <h2 className="font-semibold text-stone-800 mb-1">Seed Growth OS Tables</h2>
+        <p className="text-sm text-stone-500 mb-4">
+          Populate <code className="bg-stone-100 px-1 rounded">campaign_themes</code>, <code className="bg-stone-100 px-1 rounded">content_pillars</code>, and <code className="bg-stone-100 px-1 rounded">personas</code> with the 6 default themes, 10 pillars, and 3 audience archetypes. Run <em>after</em> applying migration 002.
+        </p>
+        <div className="grid sm:grid-cols-3 gap-3 mb-5">
+          {[
+            { label: '6 Campaign Themes', sub: 'Faith & Reconnection, Gift of Faith…' },
+            { label: '10 Content Pillars', sub: 'Spiritual Guilt, Parent Anxiety…' },
+            { label: '3 Personas', sub: 'Reconnector, Protector, Connector' },
+          ].map(item => (
+            <div key={item.label} className="bg-stone-50 rounded-xl p-3 border border-stone-200">
+              <p className="text-sm font-semibold text-stone-800">{item.label}</p>
+              <p className="text-xs text-stone-400 mt-0.5">{item.sub}</p>
+            </div>
+          ))}
+        </div>
+        <button
+          onClick={handleSeedOS}
+          disabled={osStatus === 'loading'}
+          className="px-5 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 disabled:bg-stone-200 disabled:text-stone-400 text-white font-semibold text-sm transition-colors"
+        >
+          {osStatus === 'loading' ? 'Seeding…' : 'Seed Growth OS'}
+        </button>
+        {osStatus === 'success' && (
+          <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-xl">
+            <p className="text-sm font-semibold text-green-700 mb-2">✓ Growth OS seed complete</p>
+            <pre className="text-xs text-green-600 overflow-auto">{osResult}</pre>
+          </div>
+        )}
+        {osStatus === 'error' && (
+          <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-xl">
+            <p className="text-sm font-semibold text-red-700 mb-1">Seed failed</p>
+            <p className="text-xs text-red-600">{osResult}</p>
           </div>
         )}
       </section>
