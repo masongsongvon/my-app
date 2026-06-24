@@ -8,7 +8,16 @@ type Props = {
   onDelete?: (id: string) => void
 }
 
-type Tab = 'primary_text' | 'headline' | 'ugc_script' | 'voiceover_script' | 'product_description' | 'hooks' | 'ctas'
+type Tab =
+  | 'primary_text'
+  | 'headline'
+  | 'ugc_script'
+  | 'voiceover_script'
+  | 'product_description'
+  | 'hooks'
+  | 'ctas'
+  | 'landing_page'
+  | 'ecommerce_page'
 
 const TABS: { key: Tab; label: string }[] = [
   { key: 'primary_text', label: 'Primary Text' },
@@ -18,6 +27,8 @@ const TABS: { key: Tab; label: string }[] = [
   { key: 'product_description', label: 'Product Desc.' },
   { key: 'hooks', label: 'Hooks (10)' },
   { key: 'ctas', label: 'CTAs (10)' },
+  { key: 'landing_page', label: 'Landing Page' },
+  { key: 'ecommerce_page', label: 'Shop Page' },
 ]
 
 export default function CreativeCard({ creative, onDelete }: Props) {
@@ -37,6 +48,8 @@ export default function CreativeCard({ creative, onDelete }: Props) {
       case 'product_description': return creative.product_description
       case 'hooks': return (creative.hooks ?? []).map((h, i) => `${i + 1}. ${h}`).join('\n')
       case 'ctas': return (creative.ctas ?? []).map((c, i) => `${i + 1}. ${c}`).join('\n')
+      case 'landing_page': return creative.landing_page ?? '(No landing page copy generated)'
+      case 'ecommerce_page': return creative.ecommerce_page ?? '(No e-commerce page copy generated)'
     }
   }
 

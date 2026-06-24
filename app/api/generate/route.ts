@@ -51,6 +51,8 @@ export async function POST(req: NextRequest) {
     product_description: output.product_description,
     hooks: output.hooks,
     ctas: output.ctas,
+    landing_page: output.landing_page,
+    ecommerce_page: output.ecommerce_page,
   }
 
   if (isSupabaseConfigured) {

@@ -33,6 +33,8 @@ export type GeneratedCreative = {
   product_description: string
   hooks: string[]
   ctas: string[]
+  landing_page?: string
+  ecommerce_page?: string
   notes?: string
   created_at: string
   // joined fields
