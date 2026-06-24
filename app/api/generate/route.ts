@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
   let verse: Verse | undefined
   let angle: CreativeAngle | undefined
 
-  // Resolve product and verse from DB or seed data
+  // Resolve product and verse
   if (isSupabaseConfigured) {
     const [{ data: p }, { data: v }] = await Promise.all([
       supabase.from('products').select('*').eq('id', product_id).single(),
@@ -29,8 +29,9 @@ export async function POST(req: NextRequest) {
     verse = SEED_VERSES.find((v) => v.id === verse_id) as Verse
   }
 
-  // Resolve angle — dynamic angles bypass DB lookup
-  if (angle_id === 'dynamic' && angle_custom) {
+  // Resolve angle — dynamic angles bypass DB lookup entirely
+  const isDynamic = angle_id === 'dynamic'
+  if (isDynamic && angle_custom) {
     const dynamic = angle_custom as DynamicAngle
     angle = { id: 'dynamic', name: dynamic.name, description: `${dynamic.hook}\n\n${dynamic.description}` }
   } else if (isSupabaseConfigured) {
@@ -49,7 +50,10 @@ export async function POST(req: NextRequest) {
   const record = {
     product_id,
     verse_id,
-    angle_id,
+    // angle_id is stored as text (no FK) — 'dynamic' is valid
+    angle_id: isDynamic ? 'dynamic' : angle_id,
+    // human-readable angle name stored separately for display
+    dynamic_angle_name: angle.name,
     format,
     notes: notes ?? null,
     primary_text: output.primary_text,
@@ -70,8 +74,7 @@ export async function POST(req: NextRequest) {
       .select(`
         *,
         products(*),
-        verses(*),
-        creative_angles(*)
+        verses(*)
       `)
       .single()
 
@@ -79,15 +82,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    // For dynamic angles, inject the resolved angle name since it won't be in the DB join
-    const responseCreative = angle_id === 'dynamic'
-      ? { ...data, creative_angles: { id: 'dynamic', name: angle.name, description: angle.description } }
-      : data
+    // Attach angle display object — no longer from a DB join
+    const responseCreative = {
+      ...data,
+      creative_angles: { id: angle.id, name: angle.name, description: angle.description },
+    }
 
     return NextResponse.json({ creative: responseCreative })
   }
 
-  // Return without persisting if Supabase is not configured
+  // Non-Supabase path: return without persisting
   const creative = {
     id: `local-${Date.now()}`,
     ...record,

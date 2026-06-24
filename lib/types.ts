@@ -24,7 +24,8 @@ export type GeneratedCreative = {
   id: string
   product_id: string
   verse_id: string
-  angle_id: string
+  angle_id: string              // text — 'dynamic' or legacy seed angle id, no FK
+  dynamic_angle_name?: string  // human-readable name for AI-generated angles
   format: string
   primary_text: string
   headline: string

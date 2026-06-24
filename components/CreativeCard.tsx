@@ -37,8 +37,9 @@ export default function CreativeCard({ creative, onDelete }: Props) {
 
   const product = creative.products?.name ?? creative.product_id
   const verse = creative.verses ? `${creative.verses.reference}` : creative.verse_id
-  const angleName = creative.creative_angles?.name
-  const angle = angleName && angleName !== 'dynamic' ? angleName : creative.angle_id === 'dynamic' ? 'Dynamic Angle' : (creative.angle_id ?? 'Unknown')
+  const angle = creative.creative_angles?.name
+    ?? creative.dynamic_angle_name
+    ?? (creative.angle_id === 'dynamic' ? 'Dynamic Angle' : creative.angle_id)
 
   function getContent(): string {
     switch (activeTab) {

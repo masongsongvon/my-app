@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase, isSupabaseConfigured } from '@/lib/supabase'
+// Note: creative_angles join removed — angle_id is now plain text (no FK)
+// Use dynamic_angle_name column for display instead
 
 export async function GET(req: NextRequest) {
   if (!isSupabaseConfigured) {
@@ -17,8 +19,7 @@ export async function GET(req: NextRequest) {
     .select(`
       *,
       products(*),
-      verses(*),
-      creative_angles(*)
+      verses(*)
     `)
     .order('created_at', { ascending: false })
 
@@ -33,5 +34,13 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 
-  return NextResponse.json({ creatives: data })
+  // Synthesise creative_angles display object from dynamic_angle_name so CreativeCard renders correctly
+  const creatives = (data ?? []).map((c: Record<string, unknown>) => ({
+    ...c,
+    creative_angles: c.dynamic_angle_name
+      ? { id: c.angle_id as string, name: c.dynamic_angle_name as string }
+      : null,
+  }))
+
+  return NextResponse.json({ creatives })
 }
